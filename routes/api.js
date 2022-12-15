@@ -1,9 +1,57 @@
-const express = require('express');
+const express = require("express");
+const {createUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
 const router = express.Router();
 const axios = require("axios");
 
 // Cette forme d'import permet d'importer plusieurs éléments en même temps du fichier middlewares
 const {printAnatomy, hello} = require("../middlewares");
+
+
+/**
+ * Route ping
+ */
+router.get('/ping', function (req, res) {
+    res.json({
+        status: "OK",
+        timestamp: (new Date()).getTime()
+    });
+});
+
+/**
+ * Créer un utilisateur
+ */
+router.post('/user', async (req, res) => {
+    res.json(await createUser(req.body));
+});
+
+/**
+ * Récupère un utilisateur par rapport à son id
+ */
+router.get('/user/:userId', async (req, res) => {
+    res.json(await readUser(req.params.userId));
+});
+
+/**
+ * Modifie un utilisateur par rapport à son id et le contenu de la requête
+ */
+router.put('/user/:userId', async (req, res) => {
+    res.json(await updateUser(req.params.userId, req.body));
+});
+
+/**
+ * Supprime un utilisateur par rapport à son id
+ */
+router.delete('/user/:userId', async (req, res) => {
+    res.json(await deleteUser(req.params.userId));
+});
+
+/**
+ * Récupère tous les utilisateurs
+ */
+router.get('/users', async (req, res) => {
+    res.json(await readAllUsers());
+});
+
 
 // On veut que l'user "/" requêtée avec la méthode HTTP GET nous renvoie de la donnée
 // req est la requête express où on peut avoir tout un tas d'informations sur les headers, le body de la requête, les cookies ect.

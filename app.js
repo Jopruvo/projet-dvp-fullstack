@@ -1,37 +1,76 @@
-const express = require('express');
+// On importe les packages
+const express = require("express");
 const path = require('path');
-const cookieParser = require('cookie-parser');
-const http = require('http');
-const apiRouter = require('./routes/api');
-const apiRouterV2 = require('./routes/api.v2');
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const http = require("http");
+const mongoose = require("mongoose");
+mongoose.set('strictQuery', false);
+
+
+// On importe les fichiers avec les routes
+const apiRouter = require("./routes/api.js");
+
+/* ========== PARTIE SERVEUR ========== */
 
 // On crée l'application express
 const app = express();
 
-// Utilisé pour parser le JSON, ce qui sera utile pour les API !
+// On configure le server
+app.use(logger('dev'));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
 
-// On veut ouvrir des routes sur la route principale "/api"
-app.use('/api', apiRouter);
-
-// J'ai ajouté une deuxième route principale "/v2/api" pour pouvoir avoir deux versions de mon API pour les différentes parties du TP
-app.use('/v2/api', apiRouterV2);
-
-// Le port de l'API
-const port = 3000;
-
-// On crée le serveur HTTP avec l'app
+// Crée un serveur HTTP
 const server = http.createServer(app);
 
-// Quand le serveur sera en train d'écouter au port donné on veut avoir un message
+// On allume le serveur au port 3000
+server.listen(3000);
+
+// Quand le serveur est allumé on le log
 server.on('listening', function () {
-    console.log(`Server listening on port ${port}`)
+    console.log("Le serveur est allumé");
 });
 
-// On allume le serveur au port donné
-server.listen(port);
+// Si il y a une erreur on la log
+server.on('error', function (error) {
+    console.error(error);
+});
 
-// Utilisé pour exporter l'application comme module
-module.exports = app;
+/* ========== PARTIE MONGODB ========== */
+
+// Les options à donner à MongoDB
+const options = {
+    keepAlive: true,
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+};
+
+// L'host, c'est-à-dire l'adresse d'où se trouve la base MongoDB
+// La notation a = b || c en JS veut dire, j'affecte à a la valeur de b si elle existe (non chaine de caractère vide, non null et non undefined), sinon je prends la valeur c
+// Il faut lire ça: mongoDBHost est la variable d'environnement MONGO_HOST si elle est définie sinon c'est "localhost"
+const mongoDBHost = process.env.MONGO_HOST || "localhost";
+
+/*
+Connexion à Mongodb avec les options définies auparavant
+- mongodb : est le protocol que MongoDB utilise pour se connecter, comme http ou ssh par exemple (ne bouge jamais)
+- mongoDBHost : est l'adresse locale d'où se trouve la base de données (localhost), et si la variable d'environnement MONGO_HOST existe et n'est pas vide alors on prendra cette valeur la => utilisé pour docker
+- 27017 : est le port où MongoDB écoute (c'est le port par défaut)
+- maBaseDeDonnee : est le nom de la base de données, il peut être ce que vous voulez
+ */
+
+
+mongoose.connect(`mongodb://${mongoDBHost}:27017/maBaseDeDonnee`, options, function (err) {
+    if (err) {
+        throw err;
+    }
+    console.log('Connexion à Mongodb réussie');
+});
+
+
+
+/* ========== DECLARATION DES ROUTES ========== */
+
+// On déclare que la route de base '/api' sera utilisé comme base pour les routes du fichier routes/api.js
+app.use('/api', apiRouter);
