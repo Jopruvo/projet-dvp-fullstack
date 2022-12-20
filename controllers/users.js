@@ -9,7 +9,7 @@ const {User} = require("../models/index.js");
 async function createUser(user) {
 
     // On regarde déjà si tous les champs de l'utilisateur sont présents
-    const neededKeys = ["nom", "prenom", "age"];
+    const neededKeys = ["identifiant", "mdp", "nom", "prenom", "age"];
     const keysNotGiven = getKeysNotProvided(neededKeys, user);
 
     // Si une ou plusieurs clefs ne sont pas données alors on renvoie un message d'erreur

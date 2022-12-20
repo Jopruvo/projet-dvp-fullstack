@@ -34,6 +34,14 @@
 
 <h1>Créer un utilisateur</h1>
 <div>
+    <label for="indentifiantCreation">Identifiant</label>
+    <br/>
+    <input id="identifiantCreation">
+    <br/>
+    <label for="mdpCreation">Mot de passe</label>
+    <br/>
+    <input id="mdpCreation">
+    <br/>
     <label for="nomCreation">Nom</label>
     <br/>
     <input id="nomCreation">
@@ -158,14 +166,16 @@
     /**
      * On veut créer un utilisateur et mettre le résultat dans le champ associé
      */
-    function createUser() {
+     function createUser() {
 
         // On récupère les données de l'utilisateur à créer
+        const identifiant = document.getElementById("identifiantCreation").value;
+        const mdp = document.getElementById("mdpCreation").value;
         const nom = document.getElementById("nomCreation").value;
         const prenom = document.getElementById("prenomCreation").value;
         const age = document.getElementById("ageCreation").value;
 
-        axios.post("http://localhost:3000/api/user", {nom: nom, prenom: prenom, age: age}).then(function (response) {
+        axios.post("http://localhost:3000/api/user", {identifiant: identifiant, mdp: mdp, nom: nom, prenom: prenom, age: age}).then(function (response) {
             document.getElementById("resultatCreateUser").innerHTML = JSON.stringify(response.data);
         })
     }

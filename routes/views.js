@@ -21,5 +21,13 @@ viewsRouter.get('/rest', function (req, res) {
     res.render('testAPIREST.ejs');
 });
 
+viewsRouter.get('/inscription', function (req, res) {
+    res.render('inscription.ejs');
+});
+
+viewsRouter.get('/connexion', function (req, res) {
+    res.render('connexion.ejs');
+});
+
 // On exporte seulement le router
 module.exports = viewsRouter;

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test de l'API REST</title>
+</head>
+
+<!-- On importe Axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<body>
+
+<h1>Inscription</h1>
+<div>
+    <label for="identifiantCreation">Identifiant</label>
+    <br/>
+    <input id="identifiantCreation">
+    </br>
+    <label for="mdpCreation">Mot de passe</label>
+    <br/>
+    <input id="mdpCreation">
+    <br/>
+    <label for="nomCreation">Nom</label>
+    <br/>
+    <input id="nomCreation">
+    <br/>
+    <label for="prenomCreation">Prénom</label>
+    <br/>
+    <input id="prenomCreation">
+    <br/>
+    <label for="ageCreation">Age</label>
+    <br/>
+    <input id="ageCreation" type="number">
+</div>
+<br/>
+<button onclick="createUser()">Créer un utilisateur</button>
+
+<hr/>
+</body>
+</html>
+
+<script>
+    /**
+     * On veut créer un utilisateur et mettre le résultat dans le champ associé
+     */
+    function createUser() {
+
+    // On récupère les données de l'utilisateur à créer
+    const identifiant = document.getElementById("identifiantCreation").value;
+    const mdp = document.getElementById("mdpCreation").value;
+    const nom = document.getElementById("nomCreation").value;
+    const prenom = document.getElementById("prenomCreation").value;
+    const age = document.getElementById("ageCreation").value;
+
+    axios.post("http://localhost:3000/api/user", {identifiant: identifiant, mdp: mdp, nom: nom, prenom: prenom, age: age}).then(function (response) {
+        window.location = "http://localhost:3000/connexion";
+    })
+    }
+
+
+</script>

@@ -8,6 +8,22 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
 
     /**
+     * L'identifiant de l'utilisateur
+     */    
+    identifiant: {
+        type: Schema.Types.String,
+        required: true
+    },
+
+    /**
+     * Le mot de passe de l'utilisateur
+     */    
+    mdp: {
+        type: Schema.Types.String,
+        required: true
+    },
+
+    /**
      * Le nom de l'utilisateur
      */
     nom: {
