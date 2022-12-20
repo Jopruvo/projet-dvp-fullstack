@@ -10,6 +10,7 @@ mongoose.set('strictQuery', false);
 
 // On importe les fichiers avec les routes
 const apiRouter = require("./routes/api.js");
+const viewsRouter = require("./routes/views");
 
 /* ========== PARTIE SERVEUR ========== */
 
@@ -21,6 +22,9 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+
+// Permet de dire à Express que le moteur de "vues" (le frontend) est EJS, c'est une amélioration du HTML où on peut utiliser des variables, des boucles et tout un tas de mécanismes: https://ejs.co/#docs
+app.set('view engine', 'ejs');
 
 // Crée un serveur HTTP
 const server = http.createServer(app);
@@ -74,3 +78,6 @@ mongoose.connect(`mongodb://${mongoDBHost}:27017/maBaseDeDonnee`, options, funct
 
 // On déclare que la route de base '/api' sera utilisé comme base pour les routes du fichier routes/api.js
 app.use('/api', apiRouter);
+
+// On déclare que la route de base '/' sera utilisé comme base pour les routes du fichier routes/views.js
+app.use('/', viewsRouter);
