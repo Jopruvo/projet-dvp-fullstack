@@ -12,7 +12,8 @@ const UserSchema = new Schema({
      */    
     identifiant: {
         type: Schema.Types.String,
-        required: true
+        required: true,
+        unique: true 
     },
 
     /**

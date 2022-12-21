@@ -17,12 +17,19 @@ async function createUser(user) {
         return `Les informations suivantes ne sont pas fournies ou vides: '${keysNotGiven.join(', ')}'`;
     }
 
+    //On vérifie si l'identifiant est déjà utilisé
+    console.log(User.find({identifiant: user.identifiant}).limit(1).count());
+    if (User.find({identifiant: user.identifiant}).limit(1).count() >= 1){
+
+        return 'Cet identifiant est déjà utilisé';
+    }
+
     // On peut essayer de créer l'utilisateur
     try {
 
         // On crée un utilisateur avec le model de MongoDB et les informations de l'utilisateur
         const userToCreate = new User(user);
-
+        
         // Puis on le sauvegarde en n'oubliant pas le mot clef await qui va nous permettre d'attendre que l'utilisateur
         // soit sauvegarder pour nous le renvoyer
         return await userToCreate.save();
@@ -167,6 +174,10 @@ async function readAllUsers() {
     catch (e) {
         return "Il y a eu une erreur lors de la recuperation des utilisateurs";
     }
+}
+
+async function verifyUser(){
+    //On vérifie si un utilisateur existe et si l'identifiant  et le mdp sont corrects
 }
 
 // On exporte les modules
