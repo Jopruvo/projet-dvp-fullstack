@@ -22,8 +22,6 @@ async function createUser(user) {
 
     const identifiant_trouve = await User.find({identifiant: user.identifiant}).count();
 
-    console.log(identifiant_trouve);
-    console.log(typeof identifiant_trouve);
     if (identifiant_trouve >= 1){
 
         return 'Cet identifiant est déjà utilisé';
