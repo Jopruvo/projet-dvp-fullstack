@@ -1,5 +1,6 @@
 const {getKeysNotProvided, isObjectIdStringValid} = require("../utils.js");
 const {User} = require("../models/index.js");
+const { object } = require("webidl-conversions");
 
 /**
  * Créer un utilisateur
@@ -18,26 +19,32 @@ async function createUser(user) {
     }
 
     //On vérifie si l'identifiant est déjà utilisé
-    console.log(User.find({identifiant: user.identifiant}).limit(1).count());
-    if (User.find({identifiant: user.identifiant}).limit(1).count() >= 1){
+
+    const identifiant_trouve = await User.find({identifiant: user.identifiant}).count();
+
+    console.log(identifiant_trouve);
+    console.log(typeof identifiant_trouve);
+    if (identifiant_trouve >= 1){
 
         return 'Cet identifiant est déjà utilisé';
     }
+    else {
 
-    // On peut essayer de créer l'utilisateur
-    try {
+        // On peut essayer de créer l'utilisateur
+        try {
 
-        // On crée un utilisateur avec le model de MongoDB et les informations de l'utilisateur
-        const userToCreate = new User(user);
-        
-        // Puis on le sauvegarde en n'oubliant pas le mot clef await qui va nous permettre d'attendre que l'utilisateur
-        // soit sauvegarder pour nous le renvoyer
-        return await userToCreate.save();
-    }
+            // On crée un utilisateur avec le model de MongoDB et les informations de l'utilisateur
+            const userToCreate = new User(user);
+            
+            // Puis on le sauvegarde en n'oubliant pas le mot clef await qui va nous permettre d'attendre que l'utilisateur
+            // soit sauvegarder pour nous le renvoyer
+            return await userToCreate.save();
+        }
 
-        // S'il y a une erreur lors du processus alors on renvoie un message d'erreur
-    catch (e) {
-        return "Une erreur s'est produite lors de la création de l'utilisateur";
+            // S'il y a une erreur lors du processus alors on renvoie un message d'erreur
+        catch (e) {
+            return "Une erreur s'est produite lors de la création de l'utilisateur";
+        }
     }
 }
 
