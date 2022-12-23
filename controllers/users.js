@@ -1,6 +1,7 @@
 const {getKeysNotProvided, isObjectIdStringValid} = require("../utils.js");
 const {User} = require("../models/index.js");
 const { object } = require("webidl-conversions");
+const { default: axios } = require("axios");
 
 /**
  * Créer un utilisateur
@@ -15,7 +16,7 @@ async function createUser(user) {
 
     // Si une ou plusieurs clefs ne sont pas données alors on renvoie un message d'erreur
     if (keysNotGiven.length !== 0) {
-        return `Les informations suivantes ne sont pas fournies ou vides: '${keysNotGiven.join(', ')}'`;
+        return `Remplissez toutes les informations`;
     }
 
     //On vérifie si l'identifiant est déjà utilisé
@@ -43,6 +44,9 @@ async function createUser(user) {
         catch (e) {
             return "Une erreur s'est produite lors de la création de l'utilisateur";
         }
+
+
+
     }
 }
 
@@ -181,7 +185,16 @@ async function readAllUsers() {
     }
 }
 
-async function verifyUser(){
+async function verifyUser(userIdentifiant, userMdp){
+    resultat = await User.find({identifiant: userIdentifiant, mdp: userMdp}).count();
+    
+    if (resultat == 0){
+        return "mdp ou identifiant incorrect";
+    }
+    else {
+        return "ok";
+    }
+
     //On vérifie si un utilisateur existe et si l'identifiant  et le mdp sont corrects
 }
 
@@ -191,5 +204,6 @@ module.exports = {
     readUser: readUser,
     updateUser: updateUser,
     deleteUser: deleteUser,
-    readAllUsers: readAllUsers
+    readAllUsers: readAllUsers,
+    verifyUser: verifyUser,
 }

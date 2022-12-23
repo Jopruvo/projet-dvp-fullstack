@@ -10,18 +10,33 @@
 
 <body>
 
+<header>
+<a href="http://localhost:3000/inscription">Inscription</a> 
+</header>
+        
+
 <h1>Connection</h1>
 <div>
-    <label for="identifiantCreation">Identifiant</label>
+    <label for="identifiantVerif">Identifiant</label>
     <br/>
-    <input id="identifiantCreation">
+    <input id="identifiantVerif">
     </br>
-    <label for="mdpCreation">Mot de passe</label>
+    <label for="mdpVerif">Mot de passe</label>
     <br>
-    <input id="identifiantCreation">
+    <input id="mdpVerif">
 </div>
 <br/>
 <button onclick="verifyUser()">Connection</button>
+
+</br>
+</br>
+
+<label>
+    Résultat:
+</label>
+<br/>
+<textarea disabled id="resultatVerifyUser" style="width: 500px;height: 100px"></textarea>
+
 <hr/>
 </body>
 </html>
@@ -33,16 +48,14 @@
     function verifyUser() {
 
     // On récupère les données de l'utilisateur à créer
-    const identifiant = document.getElementById("identifiantCreation").value;
-    const mdp = document.getElementById("mdpCreation").value;
+    const identifiant = document.getElementById("identifiantVerif").value;
+    const mdp = document.getElementById("mdpVerif").value;
+
+    var resp = null;
 
     // A modifier
-    axios.post("http://localhost:3000/api/user", {identifiant: identifiant, mdp: mdp, nom: nom, prenom: prenom, age: age}).then(function (response) {
-        response  = JSON.stringify(response.data);
-
-        window.location = "http://localhost:3000/connexion";
+    axios.post("http://localhost:3000/api/verifyUser", {identifiant: identifiant, mdp: mdp}).then(function (response) {
+        document.getElementById("resultatVerifyUser").innerHTML = JSON.stringify(response.data);
     })
     }
-
-
 </script>

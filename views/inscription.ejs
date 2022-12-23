@@ -2,13 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test de l'API REST</title>
+    <title>Inscription</title>
 </head>
 
 <!-- On importe Axios -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <body>
+<header>
+<a href="http://localhost:3000/connexion">Connexion</a> 
+</header>
+
+
 
 <h1>Inscription</h1>
 <div>
@@ -35,6 +40,15 @@
 <br/>
 <button onclick="createUser()">Créer un utilisateur</button>
 
+</br>
+</br>
+
+<label>
+    Résultat:
+</label>
+<br/>
+<textarea disabled id="resultatCreateUser" style="width: 500px;height: 100px"></textarea>
+
 <hr/>
 </body>
 </html>
@@ -45,20 +59,18 @@
      */
     function createUser() {
 
-    // On récupère les données de l'utilisateur à créer
-    const identifiant = document.getElementById("identifiantCreation").value;
-    const mdp = document.getElementById("mdpCreation").value;
-    const nom = document.getElementById("nomCreation").value;
-    const prenom = document.getElementById("prenomCreation").value;
-    const age = document.getElementById("ageCreation").value;
+        // On récupère les données de l'utilisateur à créer
+        const identifiant = document.getElementById("identifiantCreation").value;
+        const mdp = document.getElementById("mdpCreation").value;
+        const nom = document.getElementById("nomCreation").value;
+        const prenom = document.getElementById("prenomCreation").value;
+        const age = document.getElementById("ageCreation").value;
 
-    axios.post("http://localhost:3000/api/user", {identifiant: identifiant, mdp: mdp, nom: nom, prenom: prenom, age: age}).then(function (response) {
-        //console.log(JSON.stringify(response.data));
-        console.log("ok");
-        document.getElementById("resultatCreateUser").innerHTML = JSON.stringify(response.data);
-        window.location = "http://localhost:3000/connexion";
-    })
-    }
-
+        
+        axios.post("http://localhost:3000/api/user", {identifiant: identifiant, mdp: mdp, nom: nom, prenom: prenom, age: age}).then(function (response) {
+            document.getElementById("resultatCreateUser").innerHTML = JSON.stringify(response.data);
+            //window.location = "http://localhost:3000/connexion";
+        }).catch((err) => console.log(err));
+        }
 
 </script>

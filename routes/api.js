@@ -1,5 +1,5 @@
 const express = require("express");
-const {createUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
+const {createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
 const router = express.Router();
 const axios = require("axios");
 
@@ -22,6 +22,13 @@ router.get('/ping', function (req, res) {
  */
 router.post('/user', async (req, res) => {
     res.json(await createUser(req.body));
+});
+
+/**
+ * Vérifier un utilisateur
+ */
+router.post('/verifyUser', async (req, res) => {
+    res.json(await verifyUser(req.body));
 });
 
 /**
