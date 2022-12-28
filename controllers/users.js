@@ -186,6 +186,8 @@ async function readAllUsers() {
 }
 
 async function verifyUser(userIdentifiant, userMdp){
+    console.log(userIdentifiant);
+
     resultat = await User.find({identifiant: userIdentifiant, mdp: userMdp}).count();
     
     if (resultat == 0){

@@ -54,8 +54,12 @@
     var resp = null;
 
     // A modifier
-    axios.post("http://localhost:3000/api/verifyUser", {identifiant: identifiant, mdp: mdp}).then(function (response) {
+    axios.post("http://localhost:3000/api/verifyUser", [identifiant, mdp]).then(function (response) {
         document.getElementById("resultatVerifyUser").innerHTML = JSON.stringify(response.data);
     })
     }
+
+
 </script>
+
+

@@ -37,7 +37,17 @@ router.post('/user', async (req, res) => {
  * Vérifier un utilisateur
  */
 router.post('/verifyUser', async (req, res) => {
-    res.json(await verifyUser(req.body));
+
+    // On crée l'utilisateur
+    console.log(req.body[0]);
+    console.log(req.body[1]);
+    const utilisateurCree = await verifyUser(req.body[0], req.body[1]);
+    
+    // Pour tester la session on peut dire que le dernier utilisateur créé ira dans la session
+    req.session.dernierUtilisateur = utilisateurCree;
+
+    // On renvoie l'utilisateur créé !
+    res.json(utilisateurCree);
 });
 
 /**
