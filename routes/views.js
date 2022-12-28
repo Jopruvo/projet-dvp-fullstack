@@ -29,5 +29,9 @@ viewsRouter.get('/connexion', function (req, res) {
     res.render('connexion.ejs');
 });
 
+viewsRouter.get('/accueil', function (req, res) {
+    res.render('accueil.ejs');
+});
+
 // On exporte seulement le router
 module.exports = viewsRouter;

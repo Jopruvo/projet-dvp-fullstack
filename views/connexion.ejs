@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test de l'API REST</title>
+    <title>Connection</title>
 </head>
 
 <!-- On importe Axios -->
@@ -51,11 +51,14 @@
     const identifiant = document.getElementById("identifiantVerif").value;
     const mdp = document.getElementById("mdpVerif").value;
 
-    var resp = null;
-
-    // A modifier
+    
     axios.post("http://localhost:3000/api/verifyUser", [identifiant, mdp]).then(function (response) {
-        document.getElementById("resultatVerifyUser").innerHTML = JSON.stringify(response.data);
+        if(response.data == 'ok'){
+            window.location.replace('http://localhost:3000/accueil');
+        }
+        else {
+            document.getElementById("resultatVerifyUser").innerHTML = response.data;
+        }
     })
     }
 
