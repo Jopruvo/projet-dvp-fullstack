@@ -1,4 +1,5 @@
 const express = require("express");
+const {printSession} = require("../middlewares/index.js");
 const {createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
 const router = express.Router();
 const axios = require("axios");
@@ -10,7 +11,7 @@ const {printAnatomy, hello} = require("../middlewares");
 /**
  * Route ping
  */
-router.get('/ping', function (req, res) {
+router.get('/ping', printSession, function (req, res) {
     res.json({
         status: "OK",
         timestamp: (new Date()).getTime()
@@ -21,7 +22,15 @@ router.get('/ping', function (req, res) {
  * Créer un utilisateur
  */
 router.post('/user', async (req, res) => {
-    res.json(await createUser(req.body));
+
+    // On crée l'utilisateur
+    const utilisateurCree = await createUser(req.body);
+
+    // Pour tester la session on peut dire que le dernier utilisateur créé ira dans la session
+    req.session.dernierUtilisateur = utilisateurCree;
+
+    // On renvoie l'utilisateur créé !
+    res.json(utilisateurCree);
 });
 
 /**
@@ -127,52 +136,6 @@ router.post('/etudiant', function (req, res, next) {
     res.json(`L'étudiant ${req.body.nameEtu} avec le numéro étudiant ${req.body.numEtu} a été crée !`)
 });
 
-/** Le numéro étudiant de Didier */
-const numEtuDeDidier = 68105105101114;
-
-/*
-On crée une nouvelle route qui va appeler l'user `/api/etudiant/:numEtu` de notre API où numEtu sera 68105105101114 pour trouver Didier !
- */
-router.get('/trouverdidier', function (req, res, next) {
-
-    // On fait l'appel à notre propre API avec axios
-    axios.get(`http://localhost:3000/api/etudiant/${numEtuDeDidier}`)
-
-        // Si la requête est correcte est qu'il n'y a pas eu d'erreur, on renvoie la donnée trouvée avec une chaine de caractères
-        .then(function (response) {
-            res.json(`L'API pour trouvé Didier a bien marché et on a reçu ça comme réponse: "${response.data}"`);
-        })
-
-        // Si il y a une erreur alors on la renvoie avec du texte
-        .catch(function (error) {
-            res.json(`Didier n'a pas pû être trouvé à cause de l'erreur: ${error.message}`);
-        })
-
-    // On n'utilise pas res.json ici, car on veut que la réponse soit rendue seulement quand la donnée a été récupérée dans le .then ou dans le .catch...
-})
-
-/*
-Bien que la façon de faire plus haut fonctionne très bien, il y a une autre façon beaucoup plus compacte et à privilégier, la syntax async / await
-https://www.pierre-giraud.com/javascript-apprendre-coder-cours/async-await/
-On met bien le async devant la fonction qui deviendra une promesse et le await devant la promesse qui sera exécutée,
-La valeur renvoyée à gauche du await sera la réponse de axios et pourra être utilisé de la même façon que dans une .then
-On utilise un try/catch pour récupérer une erreur potentielle
-
-Cette notation sera utilisée tout au long des TD/TP et nous sera indispensables pour faire des appels aux bases de données ou faire des gros calculs
- */
-router.get('/trouverdidier2', async function (req, res, next) {
-    try {
-        // On fait l'appel à notre propre API avec axios
-        const response = await axios.get(`http://localhost:3000/api/etudiant/${numEtuDeDidier}`);
-        res.json(`L'API pour trouvé Didier a bien marché et on a reçu ça comme réponse: "${response.data}"`);
-    }
-
-        // S'il y a une erreur alors on la renvoie avec du texte
-    catch (error) {
-        res.json(`Didier n'a pas pû être trouvé à cause de l'erreur: ${error.message}`);
-    }
-})
-
 /*
 Ici je veux appeler les 4 users quand je veux accéder à l'user "/api/all"
  */
@@ -225,17 +188,30 @@ router.post('/all', async function (req, res, next) {
 });
 
 
-/*
-# Exercice 5.2
-Ici on a créé une simple route sur "/anatomy", mais nous avons ajouté une fonction entre la route et la fonction du routeur, cette fonction est un middleware qui permet
-de faire des actions avant de réaliser celles qui se trouvent dans la fonction du routeur.
-Vous pouvez ajouter autant de middlewares que vous le désirez, les uns à la suite des autres !
+/**
+ * Renvoie ce qui se trouve dans la session
  */
-router.get('/anatomy', printAnatomy, hello, function (req, res, next) {
+router.get('/session', (req, res) => {
+    res.json(req.session);
+});
 
-    // On veut juste renvoyer un petit texte car le gros du travail sera fait dans le middleware "printAnatomy"
-    res.json("L'anatomie a été logguée");
-})
+/**
+ * Détruis la session
+ */
+router.delete('/session', (req, res) => {
+
+    // S'il n'y a pas de session, on renvoie un message
+    if (req.session === undefined) {
+        res.json("Il n'y a pas de session à détuire")
+    }
+
+    // Si elle est existe alors on peut la détruire
+    else {
+        req.session.destroy()
+        res.json("La session a été détruite !");
+    }
+});
+
 
 
 // Utilisé pour exporter le router comme module

@@ -34,7 +34,12 @@ $ npm install mongoose
 #### EJS :
 $ npm install ejs
 
-J'ai pas encore regardé pour Redis et les sessions utilisateurs donc force à vous la famille.
+#### Cors
+$ npm install cors
+
+#### Redis/express-session/redis
+$ npm install express-session redis@3.1.2 connect-redis
+
 
 ### Etape 3 : Créer un container docker pour lancer le projet 
 
@@ -68,7 +73,16 @@ $ sudo docker start mongo-bdd
 
 $ sudo docker stop mongoz-bdd
 
-### Etape 4 : Lancer le projet 
+### Etape 4 : Créer la bdd redis
+
+De la même manière qu'au dessus, on utilise docker pour gérer la bdd redis qui va nous servir pour les sessions.
+
+$ docker run -d --name redis-bdd -p 6379:6379 redis
+$ docker stop redis-bdd
+$ docker start redis-bdd
+$ docker rm redis-bdd
+
+### Etape 5 : Lancer le projet 
 
 Une fois que le container est créé, on lance le projet avec 
 

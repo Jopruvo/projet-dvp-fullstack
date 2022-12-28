@@ -135,10 +135,57 @@
 
 <hr/>
 
+
+<hr/>
+
+<h1>Session utilisateur</h1>
+<button onclick="recupererLaSession()">Récupérer le contenu de la session</button>
+<button onclick="detruireLaSession()">Détruire la session</button>
+<br/>
+<br/>
+<label>
+    Résultat:
+</label>
+<br/>
+<textarea disabled id="resultatSession" style="width: 500px;height: 100px"></textarea>
+
+<hr/>
+
 </body>
 </html>
 
 <script>
+
+    /**
+     * On veut supprimer un utilisateur et mettre le résultat dans le champ associé
+     */
+     function deleteUser() {
+
+        // On récupère l'id de l'utilisateur
+        const userId = document.getElementById("idDelete").value;
+
+        axios.delete(`http://localhost:3000/api/user/${userId}`).then(function (response) {
+            document.getElementById("resultatDeleteUser").innerHTML = JSON.stringify(response.data);
+        })
+    }
+
+    /**
+    * Fonction pour récupérer ce qui se trouve dans la session
+    */
+    function recupererLaSession() {
+        axios.get("http://localhost:3000/api/session").then(function (response) {
+            document.getElementById("resultatSession").innerHTML = JSON.stringify(response.data);
+        })
+    }
+
+    /**
+    * Fonction pour détruire la session
+    */
+    function detruireLaSession() {
+        axios.delete("http://localhost:3000/api/session").then(function (response) {
+            document.getElementById("resultatSession").innerHTML = JSON.stringify(response.data);
+        })
+    }
 
     /**
      * On veut tester le ping
@@ -211,17 +258,5 @@
         })
     }
 
-    /**
-     * On veut supprimer un utilisateur et mettre le résultat dans le champ associé
-     */
-    function deleteUser() {
-
-        // On récupère l'id de l'utilisateur
-        const userId = document.getElementById("idDelete").value;
-
-        axios.delete(`http://localhost:3000/api/user/${userId}`).then(function (response) {
-            document.getElementById("resultatDeleteUser").innerHTML = JSON.stringify(response.data);
-        })
-    }
 
 </script>
