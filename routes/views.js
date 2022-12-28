@@ -33,5 +33,9 @@ viewsRouter.get('/accueil', function (req, res) {
     res.render('accueil.ejs');
 });
 
+viewsRouter.get('/profil', function (req, res) {
+    res.render('profil.ejs');
+});
+
 // On exporte seulement le router
 module.exports = viewsRouter;
