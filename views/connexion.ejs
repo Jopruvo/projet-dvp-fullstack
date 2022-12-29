@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Connection</title>
+    <title>Connexion</title>
 </head>
 
 <!-- On importe Axios -->
@@ -15,7 +15,7 @@
 </header>
         
 
-<h1>Connection</h1>
+<h1>Connexion</h1>
 <div>
     <label for="identifiantVerif">Identifiant</label>
     <br/>
@@ -26,7 +26,7 @@
     <input id="mdpVerif">
 </div>
 <br/>
-<button onclick="verifyUser()">Connection</button>
+<button onclick="verifyUser()">Connexion</button>
 
 </br>
 </br>
@@ -42,12 +42,10 @@
 </html>
 
 <script>
-    /**
-     * On veut créer un utilisateur et mettre le résultat dans le champ associé
-     */
+
     function verifyUser() {
 
-    // On récupère les données de l'utilisateur à créer
+    // On récupère les données de l'utilisateur 
     const identifiant = document.getElementById("identifiantVerif").value;
     const mdp = document.getElementById("mdpVerif").value;
 

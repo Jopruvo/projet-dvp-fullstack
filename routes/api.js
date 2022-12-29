@@ -40,8 +40,11 @@ router.post('/verifyUser', async (req, res) => {
 
     // On crée l'utilisateur
     const msg = await verifyUser(req.body[0], req.body[1]);
-    
 
+    if(msg == "ok"){
+        req.session.identifiant = req.body[0];
+        req.session.save();
+    }
 
     // On renvoie l'utilisateur créé !
     res.json(msg);
@@ -198,9 +201,11 @@ router.post('/all', async function (req, res, next) {
 /**
  * Renvoie ce qui se trouve dans la session
  */
-router.get('/session', (req, res) => {
+router.post('/session', async (req, res) => {
     res.json(req.session);
 });
+
+
 
 /**
  * Détruis la session

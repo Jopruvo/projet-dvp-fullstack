@@ -18,7 +18,29 @@
         
 
 <body>
-<h1>Bonjour</h1>
+    <p id="greet"></p>
+    <p id="demo"></p>
+
+    <script>
+    document.getElementById("demo").innerHTML = "My First JavaScript";
+    document.getElementById("greet").innerHTML = session.identifiant;
+    </script>
+
+    <br/>
+    <button onclick="logout()">Déconnexion</button>
+
+
+
 
 </body>
 </html>
+
+<script>
+
+    function logout () {
+        axios.delete("http://localhost:3000/api/session").then(function (response) {
+            window.location.replace('http://localhost:3000/connexion');
+        })
+    }
+
+</script>

@@ -15,6 +15,9 @@ const connectRedis = require("connect-redis");
 const apiRouter = require("./routes/api.js");
 const viewsRouter = require("./routes/views");
 
+//On crée la variable qui servira a stocker la session
+//var sess;
+
 /* ========== PARTIE SERVEUR ========== */
 
 // On crée l'application express

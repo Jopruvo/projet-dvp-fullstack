@@ -12,4 +12,5 @@ async function printSession(req, res, next) {
 
 module.exports = {
     printSession: printSession,
+    
 }
