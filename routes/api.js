@@ -6,6 +6,7 @@ const axios = require("axios");
 
 // Cette forme d'import permet d'importer plusieurs éléments en même temps du fichier middlewares
 const {printAnatomy, hello} = require("../middlewares");
+const { User } = require("../models/index.js");
 
 
 /**
@@ -38,15 +39,14 @@ router.post('/user', async (req, res) => {
  */
 router.post('/verifyUser', async (req, res) => {
 
-    // On crée l'utilisateur
     const msg = await verifyUser(req.body[0], req.body[1]);
 
     if(msg == "ok"){
-        req.session.identifiant = req.body[0];
+        req.session.user = await User.find({identifiant: req.body[0], mdp: req.body[1]});
         req.session.save();
     }
 
-    // On renvoie l'utilisateur créé !
+    // On renvoie le msg
     res.json(msg);
 });
 
