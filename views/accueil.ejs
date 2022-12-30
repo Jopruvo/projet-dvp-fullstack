@@ -22,8 +22,17 @@
     <p id="demo"></p>
 
     <script>
+        
+    function recupererIdentifiant() {
+        axios.post("http://localhost:3000/api/session").then(function (response) {
+            document.getElementById("greet").innerHTML = response.data.identifiant;
+        })
+    }
+    
+    recupererIdentifiant();
     document.getElementById("demo").innerHTML = "My First JavaScript";
-    document.getElementById("greet").innerHTML = session.identifiant;
+    //document.getElementById("greet").innerHTML = session.name;
+    //console.log(session);
     </script>
 
     <br/>
