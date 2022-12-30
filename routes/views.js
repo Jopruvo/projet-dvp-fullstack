@@ -33,6 +33,10 @@ viewsRouter.get('/accueil', function (req, res) {
     res.render('accueil.ejs');
 });
 
+viewsRouter.get('/nouveauThread', function (req, res) {
+    res.render('nouveauThread.ejs');
+});
+
 viewsRouter.get('/profil', function (req, res) {
     res.render('profil.ejs');
 });

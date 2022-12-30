@@ -58,9 +58,57 @@ const UserSchema = new Schema({
     }
 });
 
-// On exporte le model
+const ThreadSchema = new Schema({
+
+    /**
+     * Si le message est une réponse à un autre message, alors on met ici l'id du message auxquel on répond, sinon on met 0 de base 
+     */
+    reponse: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
+
+
+    /**
+     * L'identifiant de l'utilisateur qui a poste le thread
+     */    
+    identifiant: {
+        type: Schema.Types.String,
+        required: true
+    },
+
+    /**
+     * Le titre du thread
+     */
+    titre: {
+        type: Schema.Types.String,
+        required: true
+    },
+
+    /**
+     * Le contenu du thread
+     */
+    contenu: {
+        type: Schema.Types.String,
+        required: true
+    },
+
+    /**
+     * Ce champ sera pour savoir quand un thread a été ajouté la base de données
+     * Le fait de mettre 'default: Date.now' permettra de créer ce champ sans devoir le renseigner et sera la date au moment de l'ajout du document
+     */
+    createdAt: {
+        type: Schema.Types.Date,
+        default: Date.now
+    }
+});
+
+
+
+// On exporte les models
 module.exports = {
 
     // On dit que le Model User est créé à partir du Schema UserSchema et le Model sera stocké dans la base de donnée MongoDB sous le nom "user"
-    User: mongoose.model('user', UserSchema)
+    User: mongoose.model('user', UserSchema),
+    Thread: mongoose.model('thread', ThreadSchema)
 }

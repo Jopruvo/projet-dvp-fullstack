@@ -13,24 +13,29 @@
 <header>
 <a href="http://localhost:3000/accueil">Accueil</a> 
 <a href="http://localhost:3000/profil">Profil</a> 
-
+<a href="http://localhost:3000/nouveauThread">Ecrire</a> 
 </header>
         
 
-<body>
+
     <p id="greet"></p>
+
+    <p>Voici les posts les plus récents :</p>
     
 
     <script>
-    //a modifier car ne s affiche pas
-    document.getElementById("greet").innerHTML = sess.identifiant;
+        
+    function recupererIdentifiant() {
+        axios.post("http://localhost:3000/api/session").then(function (response) {
+            document.getElementById("greet").innerHTML = "Bienvenue " + response.data.identifiant + ".";
+        })
+    }
+    
+    recupererIdentifiant();
     </script>
 
     <br/>
     <button onclick="logout()">Déconnexion</button>
-
-
-
 
 </body>
 </html>
@@ -42,5 +47,7 @@
             window.location.replace('http://localhost:3000/connexion');
         })
     }
+
+
 
 </script>

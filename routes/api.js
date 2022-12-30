@@ -1,9 +1,11 @@
 const express = require("express");
 const {printSession} = require("../middlewares/index.js");
 const {createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
+const {createThread} = require("../controllers/threads.js");
 const router = express.Router();
 const axios = require("axios");
 const { User } = require("../models/index.js");
+const { Thread } = require("../models/index.js");
 var {sess} = require('../app.js');
 
 /**
@@ -15,6 +17,18 @@ router.get('/ping', printSession, function (req, res) {
         timestamp: (new Date()).getTime()
     });
 });
+
+
+/**
+ * Créer un thread 
+ */
+router.post('/thread', async (req, res) => {
+        // On crée le thread
+        const threadCree = await createThread(req.body);
+
+        // On renvoie le thread créé !
+        res.json(threadCree);
+})
 
 /**
  * Créer un utilisateur
@@ -40,7 +54,7 @@ router.post('/verifyUser', async (req, res) => {
 
     if(msg == "ok"){
         sess = req.session
-        sess.user = await User.find({identifiant: req.body[0], mdp: req.body[1]});
+        sess.identifiant = req.body[0];
         res.json(sess);
     }
     else {
