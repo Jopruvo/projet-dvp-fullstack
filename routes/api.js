@@ -3,11 +3,8 @@ const {printSession} = require("../middlewares/index.js");
 const {createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
 const router = express.Router();
 const axios = require("axios");
-
-// Cette forme d'import permet d'importer plusieurs éléments en même temps du fichier middlewares
-const {printAnatomy, hello} = require("../middlewares");
 const { User } = require("../models/index.js");
-
+var {sess} = require('../app.js');
 
 /**
  * Route ping
@@ -39,15 +36,18 @@ router.post('/user', async (req, res) => {
  */
 router.post('/verifyUser', async (req, res) => {
 
-    const msg = await verifyUser(req.body[0], req.body[1]);
+    var msg = await verifyUser(req.body[0], req.body[1]);
 
     if(msg == "ok"){
-        req.session.user = await User.find({identifiant: req.body[0], mdp: req.body[1]});
-        req.session.save();
+        sess = req.session
+        sess.user = await User.find({identifiant: req.body[0], mdp: req.body[1]});
+        res.json(sess);
+    }
+    else {
+        // On renvoie le msg
+        res.json("identifiant ou mdp incorrect");
     }
 
-    // On renvoie le msg
-    res.json(msg);
 });
 
 /**

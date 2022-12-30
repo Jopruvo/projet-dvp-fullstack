@@ -51,7 +51,7 @@
 
     
     axios.post("http://localhost:3000/api/verifyUser", [identifiant, mdp]).then(function (response) {
-        if(response.data == 'ok'){
+        if(response.data != "identifiant ou mdp incorrect"){
             window.location.replace('http://localhost:3000/accueil');
         }
         else {
