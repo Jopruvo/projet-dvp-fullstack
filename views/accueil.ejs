@@ -21,18 +21,8 @@
     <p id="greet"></p>
 
     <p>Voici les posts les plus récents :</p>
-    
 
-    <script>
-        
-    function recupererIdentifiant() {
-        axios.post("http://localhost:3000/api/session").then(function (response) {
-            document.getElementById("greet").innerHTML = "Bienvenue " + response.data.identifiant + ".";
-        })
-    }
-    
-    recupererIdentifiant();
-    </script>
+    <p id="resultatReadAllThreads"></p>
 
     <br/>
     <button onclick="logout()">Déconnexion</button>
@@ -41,6 +31,9 @@
 </html>
 
 <script>
+        
+    recupererIdentifiant();
+    
 
     function logout () {
         axios.delete("http://localhost:3000/api/session").then(function (response) {
@@ -48,6 +41,20 @@
         })
     }
 
+    /**
+     * On veut lire tous les utilisateurs et mettre le résultat dans le champ associé
+     */
+     function readAllThreads() {
+        axios.get("http://localhost:3000/api/threads").then(function (response) {
+            document.getElementById("resultatReadAllThreads").innerHTML = JSON.stringify(response.data);
+        })
+    }
+
+    function recupererIdentifiant() {
+        axios.post("http://localhost:3000/api/session").then(function (response) {
+            document.getElementById("greet").innerHTML = "Bienvenue " + response.data.identifiant + ".";
+        })
+    }
 
 
 </script>

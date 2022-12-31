@@ -42,3 +42,25 @@ async function createThread(thread) {
 
     
 }
+
+
+async function readAllThreads() {
+
+    // On essaye de récupérer TOUS les threads (donc on ne met pas de conditions lors de la recherche, juste un object vide)
+    try {
+        return await Thread.find({})
+    }
+
+        // S'il y a une erreur, on renvoie un message
+    catch (e) {
+        return "Il y a eu une erreur lors de la recuperation des posts";
+    }
+}
+
+
+
+// On exporte les modules
+module.exports = {
+    createThread: createThread,
+    readAllThreads: readAllThreads,
+}

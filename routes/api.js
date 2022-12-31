@@ -1,7 +1,7 @@
 const express = require("express");
 const {printSession} = require("../middlewares/index.js");
 const {createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
-const {createThread} = require("../controllers/threads.js");
+const {createThread, readAllThreads} = require("../controllers/threads.js");
 const router = express.Router();
 const axios = require("axios");
 const { User } = require("../models/index.js");
@@ -91,6 +91,11 @@ router.delete('/user/:userId', async (req, res) => {
 router.get('/users', async (req, res) => {
     res.json(await readAllUsers());
 });
+
+router.get('/threads', async (req, res) => {
+    res.json(await readAllThreads());
+});
+
 
 
 // On veut que l'user "/" requêtée avec la méthode HTTP GET nous renvoie de la donnée
