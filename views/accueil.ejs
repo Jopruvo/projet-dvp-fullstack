@@ -33,7 +33,7 @@
 <script>
         
     recupererIdentifiant();
-    
+    readAllThreads();
 
     function logout () {
         axios.delete("http://localhost:3000/api/session").then(function (response) {
@@ -41,12 +41,10 @@
         })
     }
 
-    /**
-     * On veut lire tous les utilisateurs et mettre le résultat dans le champ associé
-     */
+
      function readAllThreads() {
         axios.get("http://localhost:3000/api/threads").then(function (response) {
-            document.getElementById("resultatReadAllThreads").innerHTML = JSON.stringify(response.data);
+            document.getElementById("resultatReadAllThreads").innerHTML = response.data;
         })
     }
 

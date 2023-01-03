@@ -12,15 +12,15 @@ const { default: axios } = require("axios");
 async function createThread(thread) {
 
     // On regarde déjà si tous les champs de l'utilisateur sont présents
-    const neededKeys = ["reponse", "identifiant", "titre", "contenu"];
-    const keysNotGiven = getKeysNotProvided(neededKeys, user);
+    const neededKeys = ["titre", "contenu"];
+    const keysNotGiven = getKeysNotProvided(neededKeys, thread);
 
     // Si une ou plusieurs clefs ne sont pas données alors on renvoie un message d'erreur
     if (keysNotGiven.length !== 0) {
         return `Remplissez toutes les informations`;
     }
 
-
+    console.log("ok");
 
     // On peut essayer de créer le thread
     try {
@@ -35,7 +35,7 @@ async function createThread(thread) {
 
         // S'il y a une erreur lors du processus alors on renvoie un message d'erreur
     catch (e) {
-        return "Une erreur s'est produite lors de la création de votre thread";
+        throw e; //"Une erreur s'est produite lors de la création de votre thread";
     }
 
 
@@ -57,10 +57,23 @@ async function readAllThreads() {
     }
 }
 
+async function readMyThreads(identifiant){
+        // On essaye de récupérer TOUS les threads (donc on ne met pas de conditions lors de la recherche, juste un object vide)
+        try {
+            return await Thread.find({identifiant: identifiant})
+        }
+    
+            // S'il y a une erreur, on renvoie un message
+        catch (e) {
+            return "Il y a eu une erreur lors de la recuperation des posts";
+        }
+}
+
 
 
 // On exporte les modules
 module.exports = {
     createThread: createThread,
     readAllThreads: readAllThreads,
+    readMyThreads: readMyThreads,
 }

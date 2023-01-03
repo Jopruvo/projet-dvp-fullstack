@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+</head>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<body>
+
+<header>
+<a href="http://localhost:3000/accueil">Accueil</a> 
+<a href="http://localhost:3000/profil">Profil</a> 
+<a href="http://localhost:3000/nouveauThread">Ecrire</a> 
+</header>
+
+    <p id="greet"></p>
+
+    <p>Voici vos posts :</p>
+
+    <p id="resultatReadMyThreads"></p>
+
+
+</body>
+</html>
+
+<script>
+
+recupererIdentifiant();
+readMyThreads();
+
+function recupererIdentifiant() {
+    axios.post("http://localhost:3000/api/session").then(function (response) {
+        document.getElementById("greet").innerHTML = response.data.identifiant;
+    })
+}
+
+function readMyThreads() {
+        axios.get("http://localhost:3000/api/myThreads").then(function (response) {
+            document.getElementById("resultatReadMyThreads").innerHTML = response.data;
+        })
+    }
+
+</script>

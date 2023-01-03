@@ -46,8 +46,8 @@
     function verifyUser() {
 
     // On récupère les données de l'utilisateur 
-    const identifiant = document.getElementById("identifiantVerif").value;
-    const mdp = document.getElementById("mdpVerif").value;
+    var identifiant = document.getElementById("identifiantVerif").value;
+    var mdp = document.getElementById("mdpVerif").value;
 
     
     axios.post("http://localhost:3000/api/verifyUser", [identifiant, mdp]).then(function (response) {

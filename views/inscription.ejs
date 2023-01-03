@@ -39,10 +39,8 @@
 </div>
 <br/>
 <button onclick="createUser()">Créer un utilisateur</button>
-
 </br>
 </br>
-
 <label>
     Résultat:
 </label>
@@ -60,11 +58,11 @@
     function createUser() {
 
         // On récupère les données de l'utilisateur à créer
-        const identifiant = document.getElementById("identifiantCreation").value;
-        const mdp = document.getElementById("mdpCreation").value;
-        const nom = document.getElementById("nomCreation").value;
-        const prenom = document.getElementById("prenomCreation").value;
-        const age = document.getElementById("ageCreation").value;
+        var identifiant = document.getElementById("identifiantCreation").value;
+        var mdp = document.getElementById("mdpCreation").value;
+        var nom = document.getElementById("nomCreation").value;
+        var prenom = document.getElementById("prenomCreation").value;
+        var age = document.getElementById("ageCreation").value;
 
         
         axios.post("http://localhost:3000/api/user", {identifiant: identifiant, mdp: mdp, nom: nom, prenom: prenom, age: age}).then(function (response) {

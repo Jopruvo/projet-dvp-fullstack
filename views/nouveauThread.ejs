@@ -47,14 +47,13 @@
      * On veut créer un thread et mettre le résultat dans le champ associé
      */
     function createThread() {
-
-        // On récupère les données du thread à créer
-        const reponse = 0;
-        const identifiant = sess.identifiant;
-        const titre = document.getElementById("titreCreation").value;
-        const contenu = document.getElementById("contenuCreation").value;
         
-        axios.post("http://localhost:3000/api/thread", {reponse: reponse, identifiant: identifiant, titre: titre, contenu: contenu}).then(function (response) {
+        // On récupère les données du thread à créer
+        var titre = document.getElementById("titreCreation").value;
+        var contenu = document.getElementById("contenuCreation").value;
+        
+
+        axios.post("http://localhost:3000/api/thread", [titre, contenu]).then(function (response) {
             document.getElementById("resultatCreateThread").innerHTML = JSON.stringify(response.data);
         }).catch((err) => console.log(err));
         }

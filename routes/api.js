@@ -1,7 +1,7 @@
 const express = require("express");
 const {printSession} = require("../middlewares/index.js");
 const {createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
-const {createThread, readAllThreads} = require("../controllers/threads.js");
+const {createThread, readAllThreads, readMyThreads} = require("../controllers/threads.js");
 const router = express.Router();
 const axios = require("axios");
 const { User } = require("../models/index.js");
@@ -23,9 +23,11 @@ router.get('/ping', printSession, function (req, res) {
  * Créer un thread 
  */
 router.post('/thread', async (req, res) => {
-        // On crée le thread
-        const threadCree = await createThread(req.body);
+        cur_sess = req.session;
 
+        // On crée le thread
+        const threadCree = await createThread({identifiant: cur_sess.identifiant, titre: req.body[0], contenu: req.body[1]});
+        console.log("okd");
         // On renvoie le thread créé !
         res.json(threadCree);
 })
@@ -93,7 +95,28 @@ router.get('/users', async (req, res) => {
 });
 
 router.get('/threads', async (req, res) => {
-    res.json(await readAllThreads());
+    var allThreads = await readAllThreads();
+    var s = "";
+    for(i in allThreads){
+        s += allThreads[i].identifiant + " : " + allThreads[i].titre + "</br>";
+    }
+    res.json(s);
+});
+
+router.get('/myThreads', async (req, res) => {
+    cur_sess = req.session;
+    var allThreads = await readMyThreads(cur_sess.identifiant);
+    if(allThreads == null){
+        res.json("il n'y a aucun thread.");
+    }
+    else {
+        var s = "";
+        for(i in allThreads){
+            s += allThreads[i].identifiant + " : " + allThreads[i].titre + "</br>";
+        }
+        res.json(s);
+    }
+
 });
 
 

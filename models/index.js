@@ -65,7 +65,7 @@ const ThreadSchema = new Schema({
      */
     reponse: {
         type: Schema.Types.ObjectId,
-        required: true
+        required: false
     },
 
 
