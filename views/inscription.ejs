@@ -63,7 +63,6 @@
         var nom = document.getElementById("nomCreation").value;
         var prenom = document.getElementById("prenomCreation").value;
         var age = document.getElementById("ageCreation").value;
-        var admin = false;
 
         
         axios.post("http://localhost:3000/api/user", {identifiant: identifiant, mdp: mdp, admin: admin, nom: nom, prenom: prenom, age: age}).then(function (response) {

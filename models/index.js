@@ -23,12 +23,6 @@ const UserSchema = new Schema({
         type: Schema.Types.String,
         required: true
     },
-
-    admin: {
-        type: Schema.Types.Boolean,
-        required: true
-    },
-
     /**
      * Le nom de l'utilisateur
      */
