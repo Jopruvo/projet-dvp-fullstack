@@ -35,11 +35,11 @@ router.post('/thread', async (req, res) => {
 
 
 router.post('/response/:threadId', async (req, res) => {
-
+    cur_sess = req.session;
     var thread = await readThread(req.params.threadId)
 
     // On crée le thread
-    const threadCree = await createThread({reponse: thread.id, identifiant: thread.identifiant, contenu: req.body[0]});
+    const threadCree = await createThread({reponse: thread.id, identifiant: cur_sess.identifiant, contenu: req.body[0]});
     console.log(req.body[0]);
     console.log(thread.id);
     console.log(thread.identifiant);

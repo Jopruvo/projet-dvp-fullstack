@@ -71,7 +71,7 @@ async function readAllResponses(threadId){
 async function readMyThreads(identifiant){
         // On essaye de récupérer TOUS les threads (donc on ne met pas de conditions lors de la recherche, juste un object vide)
         try {
-            return await Thread.find({identifiant: identifiant})
+            return await Thread.find({reponse:undefined, identifiant: identifiant})
         }
     
             // S'il y a une erreur, on renvoie un message
