@@ -8,6 +8,10 @@ const { User } = require("../models/index.js");
 const { Thread } = require("../models/index.js");
 var {sess} = require('../app.js');
 
+admin_test = new User({identifiant: "admin", mdp: "admin", admin: true, nom: "admin", prenom:"admin", age: 44});
+admin_test.save();
+
+
 /**
  * Route ping
  */
@@ -125,11 +129,21 @@ router.get('/threads', async (req, res) => {
 
 
 router.get('/responses/:threadId', async (req, res) => {
+    cur_sess = req.session;
     var allThreads = await readAllResponses(req.params.threadId);
     var s = "";
-    for(i in allThreads){
-        s += allThreads[i].identifiant + " : " + allThreads[i].contenu + "</br>";
+    
+    if(cur_sess.admin){
+        for(i in allThreads){
+            s += allThreads[i].identifiant + " : " + allThreads[i].contenu + "</br>";
+        }
     }
+    else {
+        for(i in allThreads){
+            s += allThreads[i].identifiant + " : " + allThreads[i].contenu + "</br>";
+        }
+    }
+
     res.json(s);
 });
 
