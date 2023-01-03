@@ -41,5 +41,9 @@ viewsRouter.get('/profil', function (req, res) {
     res.render('profil.ejs');
 });
 
+viewsRouter.get('/thread', function (req, res) {
+    res.render('thread.ejs');
+});
+
 // On exporte seulement le router
 module.exports = viewsRouter;

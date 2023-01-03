@@ -1,7 +1,7 @@
 const express = require("express");
 const {printSession} = require("../middlewares/index.js");
 const {createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
-const {createThread, readAllThreads, readMyThreads} = require("../controllers/threads.js");
+const {readAllResponses, readThread, createThread, readAllThreads, readMyThreads} = require("../controllers/threads.js");
 const router = express.Router();
 const axios = require("axios");
 const { User } = require("../models/index.js");
@@ -27,9 +27,22 @@ router.post('/thread', async (req, res) => {
 
         // On crée le thread
         const threadCree = await createThread({identifiant: cur_sess.identifiant, titre: req.body[0], contenu: req.body[1]});
-        console.log("okd");
         // On renvoie le thread créé !
         res.json(threadCree);
+})
+
+
+router.post('/response/:threadId', async (req, res) => {
+
+    var thread = await readThread(req.params.threadId)
+
+    // On crée le thread
+    const threadCree = await createThread({reponse: thread.id, identifiant: thread.identifiant, contenu: req.body[0]});
+    console.log(req.body[0]);
+    console.log(thread.id);
+    console.log(thread.identifiant);
+    // On renvoie le thread créé !
+    res.json(threadCree);
 })
 
 /**
@@ -73,6 +86,13 @@ router.get('/user/:userId', async (req, res) => {
     res.json(await readUser(req.params.userId));
 });
 
+
+router.get('/thread/:threadId', async (req, res) => {
+    res.json(await readThread(req.params.threadId));
+});
+
+
+
 /**
  * Modifie un utilisateur par rapport à son id et le contenu de la requête
  */
@@ -98,10 +118,21 @@ router.get('/threads', async (req, res) => {
     var allThreads = await readAllThreads();
     var s = "";
     for(i in allThreads){
-        s += allThreads[i].identifiant + " : " + allThreads[i].titre + "</br>";
+        s += allThreads[i].identifiant + " : <a href='http://localhost:3000/thread?id=" + allThreads[i].id + "'>" + allThreads[i].titre + "</a></br>";
     }
     res.json(s);
 });
+
+
+router.get('/responses/:threadId', async (req, res) => {
+    var allThreads = await readAllResponses(req.params.threadId);
+    var s = "";
+    for(i in allThreads){
+        s += allThreads[i].identifiant + " : " + allThreads[i].contenu + "</br>";
+    }
+    res.json(s);
+});
+
 
 router.get('/myThreads', async (req, res) => {
     cur_sess = req.session;
@@ -112,7 +143,7 @@ router.get('/myThreads', async (req, res) => {
     else {
         var s = "";
         for(i in allThreads){
-            s += allThreads[i].identifiant + " : " + allThreads[i].titre + "</br>";
+            s += allThreads[i].identifiant + " : <a href='http://localhost:3000/thread?id=" + allThreads[i].id + "'>" + allThreads[i].titre + "</a></br>";
         }
         res.json(s);
     }

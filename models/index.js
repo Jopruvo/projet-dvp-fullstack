@@ -82,7 +82,7 @@ const ThreadSchema = new Schema({
      */
     titre: {
         type: Schema.Types.String,
-        required: true
+        required: false
     },
 
     /**
