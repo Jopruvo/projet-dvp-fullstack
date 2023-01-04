@@ -153,6 +153,7 @@ router.get('/responses/:threadId', async (req, res) => {
     cur_sess = req.session;
     var allThreads = await readAllResponses(req.params.threadId);
     var s = "";
+
     for(i in allThreads){
         s += allThreads[i].identifiant + " : " + allThreads[i].contenu + "</br>";
     }
