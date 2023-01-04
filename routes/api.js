@@ -1,7 +1,7 @@
 const express = require("express");
 const {printSession} = require("../middlewares/index.js");
 const {userIsAdmin, createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
-const {readAllResponses, readThread, createThread, readAllThreads, readMyThreads} = require("../controllers/threads.js");
+const {deleteThread, readAllResponses, readThread, createThread, readAllThreads, readMyThreads} = require("../controllers/threads.js");
 const router = express.Router();
 const axios = require("axios");
 const { User } = require("../models/index.js");
@@ -69,6 +69,7 @@ router.post('/user', async (req, res) => {
 });
 
 router.delete('/thread/:threadId', async (req, res) => {
+    res.json(await deleteThread(req.params.threadId));
 
 });
 

@@ -80,7 +80,32 @@ async function readMyThreads(identifiant){
         }
 }
 
+async function deleteThread(threadId){
+        if (threadId === undefined || !isObjectIdStringValid(threadId)) {
+            return "L'id de l'utilisateur n'existe pas ou n'est pas un id MongoDB"
+        }
+    
+        try {
+    
+            const threadDeleted = await Thread.findByIdAndDelete(threadId);
 
+            const listResponse = await Thread.find({reponse: threadId})
+            
+            for(let i = 0; i < listResponse.size(); i++){
+                await Thread.findByIdAndDelete(listResponse[i].id);
+            }
+
+            if (threadDeleted === null) {
+                return "Le thread n'existe pas et n'a donc pas pû être supprimé"
+            }
+    
+            return threadDeleted;
+        }
+    
+        catch (e) {
+            return "Erreur lors de la suppression du thread";
+        }
+}
 
 async function readThread(threadId) {
     if (threadId === undefined || !isObjectIdStringValid(threadId)) {
@@ -114,4 +139,5 @@ module.exports = {
     readMyThreads: readMyThreads,
     readThread: readThread,
     readAllResponses: readAllResponses,
+    deleteThread: deleteThread, 
 }
