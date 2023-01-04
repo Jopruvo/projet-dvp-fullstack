@@ -16,6 +16,11 @@ const UserSchema = new Schema({
         unique: true 
     },
 
+    admin: {
+        type: Schema.Types.Boolean,
+        required: false,
+    },
+
     /**
      * Le mot de passe de l'utilisateur
      */    

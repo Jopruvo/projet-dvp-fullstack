@@ -185,6 +185,11 @@ async function readAllUsers() {
     }
 }
 
+async function userIsAdmin(identifiant){
+    var user = await User.findOne({identifiant: identifiant});
+    return user.admin;
+}
+
 async function verifyUser(userIdentifiant, userMdp){
 
     resultat = await User.find({identifiant: userIdentifiant, mdp: userMdp}).count();
@@ -208,4 +213,5 @@ module.exports = {
     deleteUser: deleteUser,
     readAllUsers: readAllUsers,
     verifyUser: verifyUser,
+    userIsAdmin: userIsAdmin,
 }

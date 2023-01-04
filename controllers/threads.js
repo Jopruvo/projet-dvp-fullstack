@@ -81,6 +81,7 @@ async function readMyThreads(identifiant){
 }
 
 
+
 async function readThread(threadId) {
     if (threadId === undefined || !isObjectIdStringValid(threadId)) {
         return "L'id du thread n'existe pas ou n'est pas un id MongoDB"

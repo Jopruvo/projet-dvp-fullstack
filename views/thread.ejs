@@ -17,8 +17,11 @@
 </header>
 
    <p id="titleThread"></p> 
+   <p id="deleteButton"></p> 
    <p id="userThread"></p>
    <p id="contentThread"></p>
+   <p id="resultatDeleteThread"></p>
+
 
  
 </br>
@@ -59,10 +62,24 @@ Réponses :
     recupererAuteur();
     recupererContenu();
     readAllResponse();
+    displayDeleteButton();
+    deleteThread();
+
+    function deleteThread(){
+        axios.delete(`http://localhost:3000/api/thread/${findGetParameter("id")}`).then(function (response) {
+            document.getElementById("resultatDeleteThread").innerHTML = response.data
+        })
+    }
 
     function recupererTitre() {
         axios.get(`http://localhost:3000/api/thread/${findGetParameter("id")}`).then(function (response) {
             document.getElementById("titleThread").innerHTML = response.data.titre
+        })
+    }
+
+    function displayDeleteButton() {
+        axios.get(`http://localhost:3000/api/deleteButton`).then(function (response) {
+            document.getElementById("deleteButton").innerHTML = response.data
         })
     }
 

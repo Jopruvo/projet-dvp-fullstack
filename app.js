@@ -18,6 +18,8 @@ const viewsRouter = require("./routes/views");
 //On crée la variable qui servira a stocker la session actuelle
 var sess = null;
 
+
+
 /* ========== PARTIE SERVEUR ========== */
 
 // On crée l'application express

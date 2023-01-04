@@ -1,6 +1,6 @@
 const express = require("express");
 const {printSession} = require("../middlewares/index.js");
-const {createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
+const {userIsAdmin, createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
 const {readAllResponses, readThread, createThread, readAllThreads, readMyThreads} = require("../controllers/threads.js");
 const router = express.Router();
 const axios = require("axios");
@@ -9,6 +9,12 @@ const { Thread } = require("../models/index.js");
 var {sess} = require('../app.js');
 
 
+/**
+ * Créer un administrateur
+ */
+
+//const admin = new User({identifiant: "admin", admin: true, mdp: "admin", nom: "ad", prenom: "min", age: 44});
+//admin.save();
 
 /**
  * Route ping
@@ -60,6 +66,22 @@ router.post('/user', async (req, res) => {
 
     // On renvoie l'utilisateur créé !
     res.json(utilisateurCree);
+});
+
+router.delete('/thread/:threadId', async (req, res) => {
+
+});
+
+router.get('/deleteButton', async (req, res) => {
+    cur_sess = req.session;
+    identifiant = cur_sess.identifiant;
+    isAdmin = await userIsAdmin(identifiant)
+    if(isAdmin){
+        res.json("<button onclick='deleteThread()'>Supprimer le thread</button>");
+    }
+    else {
+        res.json("");
+    }
 });
 
 /**
@@ -203,77 +225,6 @@ router.put('/put', function (req, res, next) {
 router.delete('/delete', function (req, res, next) {
     res.json(Date.now() % 2 === 0)
 })
-
-// Le paramètre ou slug peut avoir à peu près n'importe quel nom
-// et doit être forcement précédé de ': puis une chaine de caractère sans espaces
-router.get('/etudiant/:numEtu', function (req, res, next) {
-    // Pour accèder au paramètre on peut le retrouver directement dans les
-    // paramètres de la requête
-    res.json(`Le numéro étudiant est récupéré et est: ${req.params.numEtu}`);
-});
-
-// On veut renvoyer une chaine de caractère avec de la donnée envoyée dans le body de la requête POST
-router.post('/etudiant', function (req, res, next) {
-
-    /*
-    Pour accèder à de la donnée JSON à l'intérieur du body de la requête on peut tout simplement récupérer
-    req.body qui est en fait un object JSON avec ce qu'on lui a donné lors de la requête (si on ne lui donne
-    rien alors il sera juste vide: {})
-    */
-    res.json(`L'étudiant ${req.body.nameEtu} avec le numéro étudiant ${req.body.numEtu} a été crée !`)
-});
-
-/*
-Ici je veux appeler les 4 users quand je veux accéder à l'user "/api/all"
- */
-router.post('/all', async function (req, res, next) {
-    try {
-        // On fait l'appel à notre propre API avec axios pour les 4 users
-        // Pour rappel mon body ressemble à ça:
-        /*
-        {
-            get: "Hello",
-            post: {
-                "hello": "test",
-                "bye": "no"
-            },
-            putParam: 1234567890000,
-            putBody: 1234567890,
-            delete: "1234"
-        }
-         */
-
-        // Pour la requête get on met la valeur de "req.body.get" dans l'URL comme paramètre
-        const responseGet = await axios.get(`http://localhost:3000/v2/api/get/${req.body.get}`);
-
-        // Pour la requête post on lui donne comme valeur de body, l'object qui se trouve dans "req.body.post"
-        const responsePost = await axios.post(`http://localhost:3000/v2/api/post`, req.body.post);
-
-        // Pour la requête put on donne un paramètre et un object dans le body
-        const responsePut = await axios.put(`http://localhost:3000/v2/api/put/${req.body.putParam}`, {timestamp: req.body.putBody});
-
-        // Pour la requête delete on donne juste un paramètre
-        const responseDelete = await axios.delete(`http://localhost:3000/v2/api/delete/${req.body.delete}`);
-
-        // On peut voir qu'on a attendue que chaque requête soit faite les unes à la suite des autres grâce au mot clef await car axios.get,post,put,delete renvoie
-        // Une promesse qui a besoin d'être attendue.
-
-        // On renvoie l'object avec les données une fois qu'on a attendue les 4 requêtes, attention les réponses renvoyées par axios sont des objects réponse et comme
-        // il nous faut que la donnée renvoyée on veut cette donnée qui se trouve à la clef data de la réponse !
-        res.json({
-            get: responseGet.data,
-            post: responsePost.data,
-            put: responsePut.data,
-            delete: responseDelete.data,
-        })
-    }
-
-        // S'il y a une erreur alors on la renvoie avec du texte
-    catch (error) {
-        res.json(`Il y a eu des erreurs !!!\n${error.message}`);
-    }
-});
-
 
 /**
  * Renvoie ce qui se trouve dans la session
