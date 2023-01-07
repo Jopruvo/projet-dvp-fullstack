@@ -78,7 +78,7 @@ router.get('/deleteButton', async (req, res) => {
     identifiant = cur_sess.identifiant;
     isAdmin = await userIsAdmin(identifiant)
     if(isAdmin){
-        res.json("<button onclick='deleteThread()'>Supprimer le thread</button>");
+        res.json("<a><img id='delete_thread_button' onclick='deleteThread()' src='/images/delete_thread_button.png'></a>");
     }
     else {
         res.json("");

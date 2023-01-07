@@ -80,7 +80,7 @@
 
         axios.post("http://localhost:3000/api/user", { identifiant: identifiant, admin: false, mdp: mdp, nom: nom, prenom: prenom, age: age }).then(function (response) {
             document.getElementById("resultatCreateUser").innerHTML = JSON.stringify(response.data);
-            //window.location = "http://localhost:3000/connexion";
+            window.location = "http://localhost:3000/connexion";
         }).catch((err) => console.log(err));
     }
 
