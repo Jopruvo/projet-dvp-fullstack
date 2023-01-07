@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="/stylesheets/inscription.css">
+</head>
+
+<!-- On importe Axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<body>
+    <header>
+        <div class="logo_overlay">
+            <a><img id="logo-main" src="/images/forum_logo_trans.png"></a>
+        </div>
+        <div class="overlay">
+            <a href="http://localhost:3000/connexion"><img id="image-login" src="/images/log_in_button.png"></a>
+        </div>
+    </header>
+
+
+    <div class="main_body">
+        <div class="log_box">
+            <h1>Inscription</h1>
+            <div>
+                <label for="identifiantCreation">Identifiant</label>
+                <br />
+                <input id="identifiantCreation">
+                <br />
+                <label for="mdpCreation">Mot de passe</label>
+                <br />
+                <input type="password" id="mdpCreation">
+                <br />
+                <label for="nomCreation">Nom</label>
+                <br />
+                <input id="nomCreation">
+                <br />
+                <label for="prenomCreation">Prénom</label>
+                <br />
+                <input id="prenomCreation">
+                <br />
+                <label for="ageCreation">Age</label>
+                <br />
+                <input id="ageCreation" type="number">
+            </div>
+            <br />
+            <div class="connexion_button">
+                <a><img id="signin" onclick="createUser()" src="/images/signin_button.png"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom_page">
+        <p id="credit">"Forum" est une marque déposée par Polytech Annecy-Chambéry, en particulier par les
+            développeurs
+            du forum TAKAHASHI Vincent, RISS Ryan et PRUVOST Jordan</p>
+    </div>
+
+    <br />
+    <hr />
+</body>
+
+</html>
+
+<script>
+    /**
+     * On veut créer un utilisateur et mettre le résultat dans le champ associé
+     */
+    function createUser() {
+
+        // On récupère les données de l'utilisateur à créer
+        var identifiant = document.getElementById("identifiantCreation").value;
+        var mdp = document.getElementById("mdpCreation").value;
+        var nom = document.getElementById("nomCreation").value;
+        var prenom = document.getElementById("prenomCreation").value;
+        var age = document.getElementById("ageCreation").value;
+
+
+        axios.post("http://localhost:3000/api/user", { identifiant: identifiant, admin: false, mdp: mdp, nom: nom, prenom: prenom, age: age }).then(function (response) {
+            document.getElementById("resultatCreateUser").innerHTML = JSON.stringify(response.data);
+            //window.location = "http://localhost:3000/connexion";
+        }).catch((err) => console.log(err));
+    }
+
+</script>

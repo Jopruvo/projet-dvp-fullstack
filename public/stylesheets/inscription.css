@@ -1,0 +1,89 @@
+body {
+    font-family: system-ui;
+    background-image: url("/images/background.png");
+    color: white;
+    text-align: center;
+    text-shadow: 0px 0px 5px #000000;
+    display: block;
+    margin: 0 auto;
+}
+
+
+#image-login {
+    width: 12%;
+    height: 12%;
+}
+
+.logo_overlay {
+    position: absolute;
+    top: 0;
+    box-shadow: 0px 0px 7px 1px #000;
+    background: #D2D2D2;
+    width: 100%;
+}
+
+.overlay {
+    box-shadow: 0px 0px 7px 1px #000;
+    border-radius: 7px;
+    position: relative;
+    top: 140px;
+    background: #D2D2D2;
+    width: 100%;
+}
+
+#logo-main {
+    width: 25%;
+    height: 25%;
+}
+
+.main_body {
+    position: relative;
+    top: 160px;
+}
+
+#post {
+    font-size: 2em;
+    font-weight: bold;
+    border-radius: 20px;
+    width: auto;
+    height: auto;
+    padding: 5px 30px 5px 30px;
+}
+
+#signin {
+    width: 70%;
+    height: 70%;
+    box-shadow: 0px 0px 7px 1px #000;
+    border-radius: 37px;
+    cursor: pointer;
+    margin: 25px;
+    top: 20px;
+}
+
+.bottom_page {
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0px 0px 7px 1px #000;
+    background: #D2D2D2;
+    width: 100%;
+}
+
+#credit {
+    color: rgb(85, 85, 85);
+    text-shadow: 0px 0px 5px #000000;
+    text-align: center;
+}
+
+.result {
+    position: relative;
+    top: 150px;
+}
+
+.log_box{
+    background: #ebebeb;
+    box-shadow: 0px 0px 7px 1px #000;
+    border-radius: 5px;
+    width: 15%;
+    margin: 0 auto;
+    text-shadow: 0px 0px 2px #000000;
+}
