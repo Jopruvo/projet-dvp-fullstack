@@ -37,7 +37,9 @@ async function createUser(user) {
             
             // Puis on le sauvegarde en n'oubliant pas le mot clef await qui va nous permettre d'attendre que l'utilisateur
             // soit sauvegarder pour nous le renvoyer
-            return await userToCreate.save();
+
+            await userToCreate.save();
+            return "Ok";
         }
 
             // S'il y a une erreur lors du processus alors on renvoie un message d'erreur

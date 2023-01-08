@@ -11,16 +11,38 @@ const { default: axios } = require("axios");
  */
 async function createThread(thread) {
 
-    // On regarde déjà si tous les champs de l'utilisateur sont présents
+    thread.contenu = (thread.contenu).trim();
+    const content = thread.contenu;
+
     const neededKeys = ["identifiant", "contenu"];
     const keysNotGiven = getKeysNotProvided(neededKeys, thread);
 
-    // Si une ou plusieurs clefs ne sont pas données alors on renvoie un message d'erreur
+    if(thread.reponse === undefined) // C'est un thread
+    {
+        // On regarde déjà si tous les champs de l'utilisateur sont présents
+
+        // On supprime les espaces au début et à la fin de la chaîne de charactères.
+        thread.titre = (thread.titre).trim();
+        const title = thread.titre;
+
+        // Si une ou plusieurs clefs ne sont pas données alors on renvoie un message d'erreur
+        if (title === '' || content === '') {
+            return `Message invalide`;
+        }
+    }
+    else
+    { // Réponse
+        if (content === '') 
+        {
+            return `Message invalide`;
+        }
+    }
+
     if (keysNotGiven.length !== 0) {
         return `Remplissez toutes les informations`;
     }
 
-    console.log("ok");
+
 
     // On peut essayer de créer le thread
     try {
@@ -30,17 +52,24 @@ async function createThread(thread) {
         
         // Puis on le sauvegarde en n'oubliant pas le mot clef await qui va nous permettre d'attendre que le thread
         // soit sauvegarder pour nous le renvoyer
-        return await threadToCreate.save();
+
+        await threadToCreate.save();
+    
+        return "Ok";
     }
 
         // S'il y a une erreur lors du processus alors on renvoie un message d'erreur
     catch (e) {
         throw e; //"Une erreur s'est produite lors de la création de votre thread";
     }
-
-
-
     
+}
+
+async function getOwnerThread(idThread)
+{
+    const getThread = await Thread.findById(idThread);
+
+    return getThread.identifiant;
 }
 
 
@@ -139,5 +168,6 @@ module.exports = {
     readMyThreads: readMyThreads,
     readThread: readThread,
     readAllResponses: readAllResponses,
-    deleteThread: deleteThread, 
+    deleteThread: deleteThread,
+    getOwnerThread: getOwnerThread
 }

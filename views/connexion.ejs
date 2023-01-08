@@ -41,14 +41,15 @@
         </div>
     </div>
 
+
+
+    <br />
+    <br />
     <div class="bottom_page">
         <p id="credit">"Forum" est une marque déposée par Polytech Annecy-Chambéry, en particulier par les
             développeurs
             du forum TAKAHASHI Vincent, RISS Ryan et PRUVOST Jordan</p>
     </div>
-
-    <br />
-    <br />
 
 </body>
 
@@ -68,7 +69,7 @@
                 window.location.replace('http://localhost:3000/accueil');
             }
             else {
-                document.getElementById("resultatVerifyUser").innerHTML = response.data;
+                alert(response.data);
             }
         })
     }

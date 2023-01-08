@@ -34,11 +34,6 @@
 
     </div>
 
-    <div class="bottom_page">
-        <p id="credit">"Forum" est une marque déposée par Polytech Annecy-Chambéry, en particulier par les développeurs
-            du forum TAKAHASHI Vincent, RISS Ryan et PRUVOST Jordan</p>
-    </div>
-
     </br>
     <div class="reponse_creation">
 
@@ -61,10 +56,6 @@
         <hr />
 
     </div>
-
-
-
-
 
 </body>
 
@@ -91,7 +82,7 @@
     }
 
     function displayDeleteButton() {
-        axios.get(`http://localhost:3000/api/deleteButton`).then(function (response) {
+        axios.get(`http://localhost:3000/api/deleteButton/${findGetParameter("id")}`).then(function (response) {
             document.getElementById("deleteButton").innerHTML = response.data
         })
     }
@@ -129,8 +120,17 @@
 
 
         axios.post(`http://localhost:3000/api/response/${findGetParameter("id")}`, [contenu]).then(function (response) {
-            window.location.replace("http://localhost:3000/thread?id=" + findGetParameter("id"));
+            if(response.data === "Ok")
+            {
+                window.location.replace("http://localhost:3000/thread?id=" + findGetParameter("id"));
+            }
+            else {
+                alert(response.data);
+            }
+            
         }).catch((err) => console.log(err));
+
+
     }
 
     function readAllResponse() {
