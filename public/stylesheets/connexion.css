@@ -39,6 +39,7 @@ body {
 .main_body {
     position: relative;
     top: 190px;
+    margin: 0 auto;
 }
 
 #post {
@@ -61,11 +62,12 @@ body {
 }
 
 .bottom_page {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     box-shadow: 0px 0px 7px 1px #000;
     background: #D2D2D2;
     width: 100%;
+    display: block;
 }
 
 #credit {
