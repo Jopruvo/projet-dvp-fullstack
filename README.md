@@ -1,6 +1,6 @@
-# Projet de développement fullstack en JavaScript
+# Projet de développement fullstack en JavaScript (Clonde de Reddit)
 
-J'ai mis les fonctions de base de l'api qui sont dans le TP
+Par Vincent TAKAHASHI, Jordan PRUVOST, Ryan RISS
 
 On peut :
  - Créer un utilisateur
