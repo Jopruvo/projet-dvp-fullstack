@@ -1,6 +1,6 @@
 const express = require("express");
 const {printSession} = require("../middlewares/index.js");
-const {userIsAdmin, createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
+const {userIsAdmin, createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser, searchAdmin} = require("../controllers/users.js");
 const {deleteThread, readAllResponses, readThread, createThread, readAllThreads, readMyThreads, getOwnerThread} = require("../controllers/threads.js");
 const router = express.Router();
 const axios = require("axios");
@@ -13,8 +13,12 @@ var {sess} = require('../app.js');
  * Créer un administrateur
  */
 
-//const admin = new User({identifiant: "admin", admin: true, mdp: "admin", nom: "ad", prenom: "min", age: 44});
-//admin.save();
+if(searchAdmin())
+{
+    const admin = new User({identifiant: "admin", admin: true, mdp: "admin", nom: "ad", prenom: "min", age: 44});
+    admin.save();
+}
+
 
 /**
  * Route ping

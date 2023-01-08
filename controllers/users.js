@@ -52,6 +52,20 @@ async function createUser(user) {
     }
 }
 
+async function searchAdmin()
+{
+    const res = await User.find({identifiant: "admin"}).count();
+
+    if(res === 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 /**
  * Lire un utilisateur par son id unique créé par MongoDB
  * @param userId L'identifiant de l'utilisateur à lire
@@ -216,4 +230,5 @@ module.exports = {
     readAllUsers: readAllUsers,
     verifyUser: verifyUser,
     userIsAdmin: userIsAdmin,
+    searchAdmin: searchAdmin
 }
