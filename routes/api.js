@@ -1,7 +1,7 @@
 const express = require("express");
 const {printSession} = require("../middlewares/index.js");
 const {userIsAdmin, createUser, verifyUser, deleteUser, readAllUsers, readUser, updateUser} = require("../controllers/users.js");
-const {deleteThread, readAllResponses, readThread, createThread, readAllThreads, readMyThreads} = require("../controllers/threads.js");
+const {deleteThread, readAllResponses, readThread, createThread, readAllThreads, readMyThreads, getOwnerThread} = require("../controllers/threads.js");
 const router = express.Router();
 const axios = require("axios");
 const { User } = require("../models/index.js");
@@ -73,11 +73,13 @@ router.delete('/thread/:threadId', async (req, res) => {
 
 });
 
-router.get('/deleteButton', async (req, res) => {
+router.get('/deleteButton/:threadId', async (req, res) => {
     cur_sess = req.session;
     identifiant = cur_sess.identifiant;
-    isAdmin = await userIsAdmin(identifiant)
-    if(isAdmin){
+    const isAdmin = await userIsAdmin(identifiant);
+    const isOwner = await getOwnerThread(req.params.threadId);
+    console.log(isOwner);
+    if(isAdmin || isOwner === cur_sess.identifiant){
         res.json("<a><img id='delete_thread_button' onclick='deleteThread()' src='/images/delete_thread_button.png'></a>");
     }
     else {
@@ -142,7 +144,7 @@ router.get('/users', async (req, res) => {
 router.get('/threads', async (req, res) => {
     var allThreads = await readAllThreads();
     var s = "";
-    for(i in allThreads){
+    for(var i = allThreads.length - 1; i >= 0; i--){
         s += allThreads[i].identifiant + " : <a href='http://localhost:3000/thread?id=" + allThreads[i].id + "'>" + allThreads[i].titre + "</a></br>";
     }
     res.json(s);
@@ -154,7 +156,7 @@ router.get('/responses/:threadId', async (req, res) => {
     var allThreads = await readAllResponses(req.params.threadId);
     var s = "";
 
-    for(i in allThreads){
+    for(var i = allThreads.length - 1; i >= 0; i--){
         s += allThreads[i].identifiant + " : " + allThreads[i].contenu + "</br>";
     }
 

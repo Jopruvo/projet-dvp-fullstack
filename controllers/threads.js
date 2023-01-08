@@ -65,6 +65,13 @@ async function createThread(thread) {
     
 }
 
+async function getOwnerThread(idThread)
+{
+    const getThread = await Thread.findById(idThread);
+
+    return getThread.identifiant;
+}
+
 
 async function readAllThreads() {
 
@@ -161,5 +168,6 @@ module.exports = {
     readMyThreads: readMyThreads,
     readThread: readThread,
     readAllResponses: readAllResponses,
-    deleteThread: deleteThread, 
+    deleteThread: deleteThread,
+    getOwnerThread: getOwnerThread
 }
