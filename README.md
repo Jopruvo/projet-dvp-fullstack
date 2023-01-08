@@ -1,4 +1,4 @@
-# Projet de développement fullstack en JavaScript (Clonde de Reddit)
+# Projet de développement fullstack en JavaScript (Clone de Reddit)
 
 Par Vincent TAKAHASHI, Jordan PRUVOST, Ryan RISS
 
@@ -11,7 +11,7 @@ On peut :
  
 ## Pour lancer le projet 
 
-### Etape 1 : Cloner le git (merci t'es un génie)
+### Etape 1 : Cloner le git
 
 ### Etape 2 : Installer les modules 
 
