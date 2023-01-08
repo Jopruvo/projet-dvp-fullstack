@@ -128,8 +128,17 @@
 
 
         axios.post(`http://localhost:3000/api/response/${findGetParameter("id")}`, [contenu]).then(function (response) {
-            window.location.replace("http://localhost:3000/thread?id=" + findGetParameter("id"));
+            if(response.data === "Ok")
+            {
+                window.location.replace("http://localhost:3000/thread?id=" + findGetParameter("id"));
+            }
+            else {
+                alert(response.data);
+            }
+            
         }).catch((err) => console.log(err));
+
+
     }
 
     function readAllResponse() {
