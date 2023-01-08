@@ -56,6 +56,9 @@ Puis aller sur http://localhost:3000/
 identifiant : admin
 mdp : admin
 
+### Ce qui aurait pu être amélioré ou ajouté
+
+On aurait pu ajouter un système de like et avoir des réponses imbriquées dans d'autres réponses.
 
 
 
