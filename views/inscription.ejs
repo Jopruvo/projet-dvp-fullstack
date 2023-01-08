@@ -79,8 +79,12 @@
 
 
         axios.post("http://localhost:3000/api/user", { identifiant: identifiant, admin: false, mdp: mdp, nom: nom, prenom: prenom, age: age }).then(function (response) {
-            document.getElementById("resultatCreateUser").innerHTML = JSON.stringify(response.data);
-            //window.location = "http://localhost:3000/connexion";
+            if (response.data === "Ok") {
+                window.location.replace('http://localhost:3000/connexion');
+            }
+            else {
+                alert(response.data);
+            }
         }).catch((err) => console.log(err));
     }
 

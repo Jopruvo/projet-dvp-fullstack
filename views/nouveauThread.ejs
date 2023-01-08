@@ -60,8 +60,14 @@
 
 
         axios.post("http://localhost:3000/api/thread", [titre, contenu]).then(function (response) {
-            document.getElementById("resultatCreateThread").innerHTML = JSON.stringify(response.data);
+            if (response.data === "Ok") {
+                window.location.replace('http://localhost:3000/accueil');
+            }
+            else {
+                alert(response.data);
+            }
         }).catch((err) => console.log(err));
+
     }
 
 </script>
